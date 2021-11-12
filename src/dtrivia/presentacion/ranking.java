@@ -1,13 +1,21 @@
 package dtrivia.presentacion;
 
+import dtrivia.logica.Fabrica;
+import dtrivia.logica.entidades.Jugador;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Dariel de Sosa
  */
 public class ranking extends javax.swing.JFrame {
 
+    private final Fabrica fabrica = new Fabrica(); //Instanciamos Fabrica
+
     public ranking() {
         initComponents();
+        cargarDatos();  
         this.setLocationRelativeTo(null); //Centrar al medio
     }
 
@@ -17,14 +25,14 @@ public class ranking extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        rankingTable = new javax.swing.JTable();
         salir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Ranking");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        rankingTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -35,7 +43,7 @@ public class ranking extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(rankingTable);
 
         salir.setText("Salir");
         salir.addActionListener(new java.awt.event.ActionListener() {
@@ -83,6 +91,30 @@ public class ranking extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_salirActionPerformed
 
+    private void cargarDatos() {
+        DefaultTableModel tabla = new DefaultTableModel();
+        
+        //Defino las columnas que quiero
+        tabla.addColumn("Nombre");
+        tabla.addColumn("Ronda");
+        tabla.addColumn("Premio $");
+
+        //Hacemos una lista de Jugadores
+        List<Jugador> jugadores = fabrica.getJugadorControlador().getTodosLosJugadores();
+        for (Jugador player : jugadores) {
+            String fila[] = new String[3];
+
+            fila[0] = player.getNombre();
+            fila[1] = player.getRonda().toString();
+            fila[2] = player.getPremio().toString();
+            
+            tabla.addRow(fila); //Se agrega la fila al modelo de la tabla
+        }
+        this.rankingTable.setModel(tabla);
+    }
+
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -118,7 +150,7 @@ public class ranking extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable rankingTable;
     private javax.swing.JButton salir;
     // End of variables declaration//GEN-END:variables
 }

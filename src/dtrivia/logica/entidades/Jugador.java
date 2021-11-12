@@ -4,17 +4,19 @@ package dtrivia.logica.entidades;
 public class Jugador {
     
     private String nombre;
-    private Integer premio, ronda;
-
+    private Integer id, premio, ronda;
+    
     //Constructor por Defecto
     public Jugador(){}
     
     //Constructor por referencia
-    public Jugador(String nombre, Integer premio, Integer ronda) {
+    public Jugador(String nombre, Integer id, Integer premio, Integer ronda) {
         this.nombre = nombre;
+        this.id = id;
         this.premio = premio;
         this.ronda = ronda;
     }
+    
     
     //-------------------Getters-------------------//
     public String getNombre() {
@@ -29,6 +31,10 @@ public class Jugador {
         return ronda;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     //-------------------Setters-------------------//
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -40,6 +46,10 @@ public class Jugador {
 
     public void setRonda(Integer ronda) {
         this.ronda = ronda;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
     
 }

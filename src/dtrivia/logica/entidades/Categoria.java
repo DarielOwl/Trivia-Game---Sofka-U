@@ -3,24 +3,24 @@ package dtrivia.logica.entidades;
 public class Categoria {
    
     private String nombreCategoria;
-    private Integer dificultad;
+    private Long id;
 
     //Constructor por defecto
     public Categoria(){}
     
     //Constructor por referencia
-    public Categoria(String nombreCategoria, Integer dificultad) {
+    public Categoria(String nombreCategoria, Long id) {
         this.nombreCategoria = nombreCategoria;
-        this.dificultad = dificultad;
+        this.id = id;
     }
-    
+  
     //-------------------Getters-------------------//
     public String getNombreCategoria() {
         return nombreCategoria;
     }
-    
-    public Integer getDificultad() {
-        return dificultad;
+
+    public Long getId() {
+        return id;
     }
     
     
@@ -29,8 +29,9 @@ public class Categoria {
         this.nombreCategoria = nombreCategoria;
     }
 
-    public void setDificultad(Integer dificultad) {
-        this.dificultad = dificultad;
+    public void setId(Long id) {
+        this.id = id;
     }
-
+    
+    
 }

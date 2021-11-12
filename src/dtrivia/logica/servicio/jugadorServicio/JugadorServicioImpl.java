@@ -16,14 +16,12 @@ import java.util.List;
  */
 public class JugadorServicioImpl implements JugadorServicio {
 
-    
     private static JugadorServicioImpl servicioJugador; //INSTANCIA DE LA CLASE
-
     private conexionBD conexion = new conexionBD(); //Obtener la conexion de la BD
 
-    public JugadorServicioImpl() {} //Constructor por defecto
+    public JugadorServicioImpl() {
+    } //Constructor por defecto
 
-    
     //========== OBTENER LA INSTANCIA DE LA CLASE MEDIANTE UN GETTER =========//
     public JugadorServicioImpl getInstance() {
         if (null == servicioJugador) {
@@ -34,9 +32,8 @@ public class JugadorServicioImpl implements JugadorServicio {
 
     //====================== CONSULTAS PARA LA BASE DE DATOS =================//
     private final String getTodosLosJugadores = "SELECT * FROM `jugador` ORDER BY premio DESC";
-
     //====================== CONSULTAS PARA LA BASE DE DATOS =================//
-    
+
     //------------------------LISTA DE JUGADORES-------------------------//
     @Override
     public List<Jugador> getTodosLosJugadores() {
@@ -53,11 +50,13 @@ public class JugadorServicioImpl implements JugadorServicio {
 
         return jugadores;
     }
+    //------------------------LISTA DE JUGADORES-------------------------//
 
     //------------------------MAPPER DE JUGADORES-------------------------//
     private Jugador jugadoresMapper(ResultSet rs) throws SQLException {
         //Genera el obj con la informacion de la BD
         return new Jugador(rs.getString("nombreJugador"), rs.getInt("idJugador"), rs.getInt("premio"), rs.getInt("ronda"));
     }
+    //------------------------MAPPER DE JUGADORES-------------------------//
     
 }

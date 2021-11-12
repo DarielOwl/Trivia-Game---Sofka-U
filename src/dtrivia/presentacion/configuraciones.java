@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 public class configuraciones extends javax.swing.JFrame {
 
     private final Fabrica fabrica = new Fabrica(); //Instanciamos Fabrica
+    private Categoria catSeleccionada; //Para almacenar las categorias
 
     public configuraciones() {
         initComponents();
@@ -25,8 +26,8 @@ public class configuraciones extends javax.swing.JFrame {
 
             //Setear las categorias en el combobox
             List<Categoria> categorias = fabrica.getCategoriaControlador().getTodosLasCategorias();
-            categorias.forEach(categoria -> categorias_combo.addItem(categoria.getNombreCategoria()));
-
+            categorias.forEach(categoria -> categorias_combo.addItem(categoria));
+            
         } catch (BaseDeDatosException ex) {
             throw new InnovaModelException(String.format("Error en base de datos [%s]", ex.getMessage()));
         }
@@ -41,8 +42,6 @@ public class configuraciones extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         categorias_combo = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textoPregunta = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -58,6 +57,7 @@ public class configuraciones extends javax.swing.JFrame {
         cancelar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         dificultad_combo = new javax.swing.JComboBox<>();
+        textopregunta = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(800, 600));
@@ -66,11 +66,13 @@ public class configuraciones extends javax.swing.JFrame {
 
         jLabel2.setText("Seleccione Categoria: ");
 
-        jLabel3.setText("Formule la Pregunta: ");
+        categorias_combo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                categorias_comboActionPerformed(evt);
+            }
+        });
 
-        textoPregunta.setColumns(20);
-        textoPregunta.setRows(5);
-        jScrollPane1.setViewportView(textoPregunta);
+        jLabel3.setText("Formule la Pregunta: ");
 
         jLabel4.setText("Crea las posibles respuestas");
 
@@ -126,6 +128,12 @@ public class configuraciones extends javax.swing.JFrame {
 
         dificultad_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Facil", "Medio", "Dificil" }));
 
+        textopregunta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textopreguntaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,17 +157,17 @@ public class configuraciones extends javax.swing.JFrame {
                                 .addGap(48, 48, 48)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(categorias_combo, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(65, 65, 65)
+                                        .addComponent(categorias_combo, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel9)
                                         .addGap(3, 3, 3)
-                                        .addComponent(dificultad_combo, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(dificultad_combo, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textopregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(28, 28, 28)
                                 .addComponent(jLabel4))
@@ -183,7 +191,7 @@ public class configuraciones extends javax.swing.JFrame {
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(respuestaIncorrecta3, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 13, Short.MAX_VALUE)))
+                        .addGap(0, 71, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -194,14 +202,16 @@ public class configuraciones extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(categorias_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(categorias_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textopregunta, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(dificultad_combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(41, 41, 41)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,7 +238,7 @@ public class configuraciones extends javax.swing.JFrame {
                     .addComponent(salir)
                     .addComponent(confirmar)
                     .addComponent(cancelar))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         pack();
@@ -261,25 +271,27 @@ public class configuraciones extends javax.swing.JFrame {
             String respIncorrecta3 = this.respuestaIncorrecta3.getText();
 
             //Pregunta
-            String pregunta = this.textoPregunta.getText();
+            String pregunta = this.textopregunta.getText();
 
             //Obtenemos la categoria seleccionada
             Categoria CategoriaID = (Categoria) categorias_combo.getSelectedItem();
+            Long idCat = CategoriaID.getId();
 
+            //Guardamos la id del item seleccionado
             String dificultad = dificultad_combo.getSelectedItem().toString();
 
             //Preguntamos al Usuario antes de ingresar
             int i = JOptionPane.showConfirmDialog(null, "¿Desea Registrar esta Pregunta?", "Confirmar Alta Pregunta", JOptionPane.YES_NO_OPTION);
             if (i == JOptionPane.YES_OPTION) {
 
-                Pregunta preg = new Pregunta(pregunta, dificultad, CategoriaID.getId()); //Creamos el obj pregunta
+                Pregunta preg = new Pregunta(pregunta, dificultad, idCat); //Creamos el obj pregunta
                 fabrica.getFAQControlador().altaPregunta(preg); //Insertamos la pregunta primero
 
                 //Creamos el obj respuesta 
                 Pregunta IDpreg = fabrica.getFAQControlador().getIdPregunta(pregunta); //Obtenemos la pregunta
                 Respuesta resp = new Respuesta(resCorrecta, respIncorrecta1, respIncorrecta2, respIncorrecta3, IDpreg.getId());
                 fabrica.getFAQControlador().altaRespuesta(resp);
-                
+
                 JOptionPane.showMessageDialog(null, "Se agrego correctamente la Pregunta");
             } else {
                 JOptionPane.showMessageDialog(null, "No agrego la Pregunta");
@@ -302,6 +314,15 @@ public class configuraciones extends javax.swing.JFrame {
         m.show();
         dispose();
     }//GEN-LAST:event_salirActionPerformed
+
+    private void textopreguntaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textopreguntaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textopreguntaActionPerformed
+
+    private void categorias_comboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categorias_comboActionPerformed
+        //AL SELECCIONAR UNA CATEGORIA SE ASIGNA ESE VALOR A catSeleccionada
+        catSeleccionada = (Categoria) categorias_combo.getSelectedItem();
+    }//GEN-LAST:event_categorias_comboActionPerformed
 
     /**
      * @param args the command line arguments
@@ -340,7 +361,7 @@ public class configuraciones extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelar;
-    private javax.swing.JComboBox<String> categorias_combo;
+    private javax.swing.JComboBox<Categoria> categorias_combo;
     private javax.swing.JButton confirmar;
     private javax.swing.JComboBox<String> dificultad_combo;
     private javax.swing.JLabel jLabel1;
@@ -352,13 +373,12 @@ public class configuraciones extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField respuestaCorrecta;
     private javax.swing.JTextField respuestaIncorrecta1;
     private javax.swing.JTextField respuestaIncorrecta2;
     private javax.swing.JTextField respuestaIncorrecta3;
     private javax.swing.JButton salir;
-    private javax.swing.JTextArea textoPregunta;
+    private javax.swing.JTextField textopregunta;
     // End of variables declaration//GEN-END:variables
 }

@@ -33,8 +33,7 @@ public class CategoriaServicioImpl implements CategoriaServicio {
     //------------------CONSULTAS PARA LA BASE DE DATOS-----------------------//
     private final String getTodosLasCategorias = "Select * from categoria;";
     //------------------CONSULTAS PARA LA BASE DE DATOS-----------------------//
-    
-    
+
     //------------------------LISTA DE CATEGORIAS-------------------------//
     @Override
     public List<Categoria> getTodosLasCategorias() {
@@ -55,9 +54,10 @@ public class CategoriaServicioImpl implements CategoriaServicio {
 
     //------------------------MAPPER DE CATEGORIAS-------------------------//
     private Categoria categoriasMapper(ResultSet rs) throws SQLException {
-       //Genera el obj con la informacion de la BD
-        return new Categoria(rs.getString("nombreCategoria"),rs.getLong("idCategoria"));
+        //Genera el obj con la informacion de la BD
+        Categoria cat = new Categoria(rs.getString("nombreCategoria"), rs.getLong("idCategoria"));
+        return cat;
     }
     //------------------------MAPPER DE CATEGORIAS-------------------------//
-    
+
 }

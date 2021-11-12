@@ -45,7 +45,7 @@ public class FAQControlador implements FAQInterfaz {
             //Aqui debemos llamar a servicios de la BD
             faqServicio.altaRespuesta(resp);
         } catch (BaseDeDatosException ex) { //Cualquier error muestra
-            throw new InnovaModelException(String.format("Error en base de datos [%s]", ex.getMessage()));
+            throw new InnovaModelException(String.format("Error BD Respuesta [%s]", ex.getMessage()));
         }
     }
 

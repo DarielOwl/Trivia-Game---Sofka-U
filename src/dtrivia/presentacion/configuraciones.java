@@ -290,6 +290,7 @@ public class configuraciones extends javax.swing.JFrame {
 
                 //Creamos el obj respuesta 
                 Pregunta IDpreg = fabrica.getFAQControlador().getIdPregunta(pregunta); //Obtenemos la pregunta
+                
                 Respuesta resp = new Respuesta(resCorrecta, respIncorrecta1, respIncorrecta2, respIncorrecta3, IDpreg.getId());
                 fabrica.getFAQControlador().altaRespuesta(resp);
 

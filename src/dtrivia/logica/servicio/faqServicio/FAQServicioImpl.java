@@ -64,7 +64,7 @@ public class FAQServicioImpl implements FAQServicio {
             sentencia.setString(1, pregunta);
             ResultSet rs = sentencia.executeQuery();
             while (rs.next()) {
-                return preguntaMapper(rs);
+                return preguntaIDMapper(rs);
             }
             throw new NoSuchElementException(String.format("Pregunta %s no encontrado", pregunta));
         } catch (SQLException ex) {
@@ -129,11 +129,16 @@ public class FAQServicioImpl implements FAQServicio {
     private Pregunta preguntaMapper(ResultSet rs) throws SQLException {
         return new Pregunta(rs.getString("pregunta"), rs.getString("dificultad"), rs.getLong("idCategoria"), rs.getLong("id"));
     }
+    
+    private Pregunta preguntaIDMapper(ResultSet rs) throws SQLException {
+        return new Pregunta(rs.getLong("id"));
+    }
     //------------------------MAPPER PREGUNTA----------------------------//
 
+    //------------------------MAPPER RESPUESTA----------------------------//
     private Respuesta respuestaMapper(ResultSet rs) throws SQLException {
-        //String respuestaBien, String respuestaMal1, String respuestaMal2, String respuestaMal3, Long idPregunta
         return new Respuesta(rs.getString("respuestaBien"), rs.getString("respuestaMal1"), rs.getString("respuestaMal2"), rs.getString("respuestaMal3"), rs.getLong("idPregunta"));
     }
+    //------------------------MAPPER RESPUESTA----------------------------//
 
 }

@@ -10,12 +10,16 @@ import dtrivia.logica.controlador.controladorFAQ.FAQControlador;
 import dtrivia.logica.controlador.controladorFAQ.FAQInterfaz;
 import dtrivia.logica.controlador.controladorJugador.JugadorControlador;
 import dtrivia.logica.controlador.controladorJugador.JugadorInterfaz;
+import dtrivia.logica.controlador.controladorRonda.RondaControlador;
+import dtrivia.logica.controlador.controladorRonda.RondaInterfaz;
 import dtrivia.logica.servicio.categoriaServicio.CategoriaServicio;
 import dtrivia.logica.servicio.categoriaServicio.CategoriaServicioImpl;
 import dtrivia.logica.servicio.faqServicio.FAQServicio;
 import dtrivia.logica.servicio.faqServicio.FAQServicioImpl;
 import dtrivia.logica.servicio.jugadorServicio.JugadorServicio;
 import dtrivia.logica.servicio.jugadorServicio.JugadorServicioImpl;
+import dtrivia.logica.servicio.rondaServicio.RondaServicio;
+import dtrivia.logica.servicio.rondaServicio.RondaServicioImpl;
 
 public class Fabrica {
 
@@ -63,4 +67,16 @@ public class Fabrica {
         return inst;
     }
     //-----------------------FAQ Operaciones------------------------//
+
+    //-----------------------Ronda Operaciones------------------------//
+    public RondaInterfaz getRondaControlador() { //Obtener instancia de Controlador Servicio
+        RondaInterfaz inst = new RondaControlador();
+        return inst;
+    }
+
+    public RondaServicio getRondaServicioImpl() { //Obtener instancia del Servicio Jugador
+        RondaServicio inst = new RondaServicioImpl();
+        return inst;
+    }
+    //-----------------------Ronda Operaciones------------------------//
 }

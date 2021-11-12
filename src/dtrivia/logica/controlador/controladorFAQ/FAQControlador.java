@@ -6,6 +6,7 @@ import dtrivia.logica.entidades.Pregunta;
 import dtrivia.logica.entidades.Respuesta;
 import dtrivia.logica.servicio.faqServicio.FAQServicio;
 import dtrivia.logica.servicio.faqServicio.FAQServicioImpl;
+import java.util.List;
 
 /**
  *
@@ -40,9 +41,31 @@ public class FAQControlador implements FAQInterfaz {
 
     @Override
     public void altaRespuesta(Respuesta resp) {
-         try {
+        try {
             //Aqui debemos llamar a servicios de la BD
             faqServicio.altaRespuesta(resp);
+        } catch (BaseDeDatosException ex) { //Cualquier error muestra
+            throw new InnovaModelException(String.format("Error en base de datos [%s]", ex.getMessage()));
+        }
+    }
+
+    //-----------------BUSCAR PREGUNTA------------------------//
+    @Override
+    public Pregunta buscarPregunta(String dificultad) {
+        try {
+            //Aqui debemos llamar a servicios de la BD
+            return faqServicio.buscarPregunta(dificultad);
+        } catch (BaseDeDatosException ex) { //Cualquier error muestra
+            throw new InnovaModelException(String.format("Error en base de datos [%s]", ex.getMessage()));
+        }
+    }
+
+    //-----------------BUSCAR RESPUESTA------------------------//
+    @Override
+    public Respuesta buscarRespuesta(Long IDpregunta) {
+        try {
+            //Aqui debemos llamar a servicios de la BD
+            return faqServicio.buscarRespuesta(IDpregunta);
         } catch (BaseDeDatosException ex) { //Cualquier error muestra
             throw new InnovaModelException(String.format("Error en base de datos [%s]", ex.getMessage()));
         }

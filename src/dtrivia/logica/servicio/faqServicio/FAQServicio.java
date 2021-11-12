@@ -2,6 +2,7 @@ package dtrivia.logica.servicio.faqServicio;
 
 import dtrivia.logica.entidades.Pregunta;
 import dtrivia.logica.entidades.Respuesta;
+import java.util.List;
 
 /**
  *
@@ -17,4 +18,10 @@ public interface FAQServicio {
 
     //Creamos la respuesta
     void altaRespuesta(Respuesta resp);
+
+    //Buscamos la pregunta de forma aleatoria
+    Pregunta buscarPregunta(String dificultad);
+
+    //buscar respuesta por idPregunta
+    Respuesta buscarRespuesta(Long IDpregunta);
 }

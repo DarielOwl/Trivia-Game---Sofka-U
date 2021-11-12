@@ -7,6 +7,8 @@ import dtrivia.persistencia.conexionBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -34,6 +36,8 @@ public class FAQServicioImpl implements FAQServicio {
     private final String insertarPregunta = "INSERT INTO pregunta (idCategoria, pregunta, dificultad) VALUES (?, ?, ?)";
     private final String buscarIdPregunta = "SELECT id FROM pregunta WHERE pregunta = ?";
     private final String insertarRespuesta = "INSERT INTO respuesta (idPregunta, respuestaBien, respuestaMal1, respuestaMal2, respuestaMal3) VALUES (?, ?, ?, ?, ?)";
+    private final String buscarPregunta = "SELECT DISTINCT * FROM `pregunta` WHERE dificultad = ? ORDER BY RAND() LIMIT 1";
+    private final String buscarRespuestaPorIdPregunta = "SELECT * FROM `respuesta` WHERE idPregunta = ?;";
     //------------------CONSULTAS PARA LA BASE DE DATOS-----------------------//
 
     //------------------------ALTA PREGUNTA----------------------------//
@@ -69,12 +73,6 @@ public class FAQServicioImpl implements FAQServicio {
     }
     //------------------------BUSCAR IDPREGUNTA----------------------------//
 
-    //------------------------MAPPER PREGUNTA----------------------------//
-    private Pregunta preguntaMapper(ResultSet rs) throws SQLException {
-        return new Pregunta(rs.getLong("id"));
-    }
-    //------------------------MAPPER PREGUNTA----------------------------//
-
     //------------------------ALTA RESPUESTA----------------------------//
     @Override
     public void altaRespuesta(Respuesta resp) {
@@ -92,4 +90,50 @@ public class FAQServicioImpl implements FAQServicio {
         }
     }
     //------------------------ALTA RESPUESTA----------------------------//
+
+    //--------------------------BUSCAR PREGUNTA------------------------//
+    @Override
+    public Pregunta buscarPregunta(String dificultad) {
+        try {
+            PreparedStatement sentencia = conexion.getConexion().prepareStatement(buscarPregunta);
+            sentencia.setString(1, dificultad);
+            ResultSet rs = sentencia.executeQuery();
+            while (rs.next()) {
+                return preguntaMapper(rs);
+            }
+            throw new NoSuchElementException(String.format("Dificultad %s no encontrado", dificultad));
+        } catch (SQLException ex) {
+            throw new BaseDeDatosException(ex.getMessage(), ex.getCause());
+        }
+    }
+    //--------------------------BUSCAR PREGUNTA------------------------//
+
+    //--------------------------BUSCAR RESPUESTA------------------------//
+    @Override
+    public Respuesta buscarRespuesta(Long IDpregunta) {
+        try {
+            PreparedStatement sentencia = conexion.getConexion().prepareStatement(buscarRespuestaPorIdPregunta);
+            sentencia.setLong(1, IDpregunta);
+            ResultSet rs = sentencia.executeQuery();
+            while (rs.next()) {
+                return respuestaMapper(rs);
+            }
+            throw new NoSuchElementException(String.format("IDpregunta %s no encontrado", IDpregunta));
+        } catch (SQLException ex) {
+            throw new BaseDeDatosException(ex.getMessage(), ex.getCause());
+        }
+    }
+    //--------------------------BUSCAR RESPUESTA------------------------//
+
+    //------------------------MAPPER PREGUNTA----------------------------//
+    private Pregunta preguntaMapper(ResultSet rs) throws SQLException {
+        return new Pregunta(rs.getString("pregunta"), rs.getString("dificultad"), rs.getLong("idCategoria"), rs.getLong("id"));
+    }
+    //------------------------MAPPER PREGUNTA----------------------------//
+
+    private Respuesta respuestaMapper(ResultSet rs) throws SQLException {
+        //String respuestaBien, String respuestaMal1, String respuestaMal2, String respuestaMal3, Long idPregunta
+        return new Respuesta(rs.getString("respuestaBien"), rs.getString("respuestaMal1"), rs.getString("respuestaMal2"), rs.getString("respuestaMal3"), rs.getLong("idPregunta"));
+    }
+
 }

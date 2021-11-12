@@ -16,6 +16,14 @@ public class Pregunta {
         this.dificultad = dificultad;
         this.idCategoria = idCategoria;
     }
+    
+    //Generico
+    public Pregunta(String pregunta, String dificultad, Long idCategoria, Long id) {
+        this.pregunta = pregunta;
+        this.dificultad = dificultad;
+        this.idCategoria = idCategoria;
+        this.id = id;
+    }
 
 
     //-------------------Getters-------------------//

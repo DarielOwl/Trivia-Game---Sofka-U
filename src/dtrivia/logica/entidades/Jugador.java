@@ -16,7 +16,12 @@ public class Jugador {
         this.premio = premio;
         this.ronda = ronda;
     }
-    
+
+    public Jugador(String nombre, Integer premio, Integer ronda) {
+        this.nombre = nombre;
+        this.premio = premio;
+        this.ronda = ronda;
+    }
     
     //-------------------Getters-------------------//
     public String getNombre() {

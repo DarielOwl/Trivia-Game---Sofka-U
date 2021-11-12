@@ -27,8 +27,8 @@ public class FAQControlador implements FAQInterfaz {
             throw new InnovaModelException(String.format("Error en base de datos [%s]", ex.getMessage()));
         }
     }
-
     //------------------------ALTA PREGUNTA----------------------//
+    
     @Override
     public Pregunta getIdPregunta(String pregunta) {
         try {

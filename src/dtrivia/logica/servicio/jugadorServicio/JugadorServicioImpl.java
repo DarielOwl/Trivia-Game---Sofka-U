@@ -32,6 +32,7 @@ public class JugadorServicioImpl implements JugadorServicio {
 
     //====================== CONSULTAS PARA LA BASE DE DATOS =================//
     private final String getTodosLosJugadores = "SELECT * FROM `jugador` ORDER BY premio DESC";
+    private final String altaJugador = "INSERT INTO jugador (nombreJugador, premio, ronda) VALUES (?, ?, ?)";
     //====================== CONSULTAS PARA LA BASE DE DATOS =================//
 
     //------------------------LISTA DE JUGADORES-------------------------//
@@ -58,5 +59,19 @@ public class JugadorServicioImpl implements JugadorServicio {
         return new Jugador(rs.getString("nombreJugador"), rs.getInt("idJugador"), rs.getInt("premio"), rs.getInt("ronda"));
     }
     //------------------------MAPPER DE JUGADORES-------------------------//
+
+    @Override
+    public void altaJugador(Jugador player) {
+     PreparedStatement sentencia;
+        try {
+            sentencia = conexion.getConexion().prepareStatement(altaJugador);
+            sentencia.setString(1, player.getNombre());
+            sentencia.setLong(2, player.getPremio());
+            sentencia.setLong(3, player.getRonda());
+            sentencia.executeUpdate();
+        } catch (SQLException ex) {
+            throw new BaseDeDatosException(String.format("Error SQL [%s]", ex.getMessage()), ex.getCause());
+        }
+    }
     
 }

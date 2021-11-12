@@ -27,6 +27,16 @@ public class JugadorControlador implements JugadorInterfaz {
             throw new InnovaModelException(String.format("Error en base de datos [%s]", ex.getMessage()));
         }
     }
+
+    @Override
+    public void altaJugador(Jugador player) {
+        try {
+            //Aqui debemos llamar a servicios de la BD
+            jugadorServicio.altaJugador(player);
+        } catch (BaseDeDatosException ex) { //Cualquier error muestra
+            throw new InnovaModelException(String.format("Error en base de datos [%s]", ex.getMessage()));
+        }
+    }
     
     
     

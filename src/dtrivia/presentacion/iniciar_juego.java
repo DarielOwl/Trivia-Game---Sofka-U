@@ -3,6 +3,7 @@ package dtrivia.presentacion;
 import dtrivia.excepciones.BaseDeDatosException;
 import dtrivia.excepciones.InnovaModelException;
 import dtrivia.logica.Fabrica;
+import dtrivia.logica.entidades.Jugador;
 import dtrivia.logica.entidades.Pregunta;
 import dtrivia.logica.entidades.Respuesta;
 import dtrivia.logica.entidades.Ronda;
@@ -21,12 +22,15 @@ public class iniciar_juego extends javax.swing.JFrame {
     public String lvlRonda = "facil"; //dificultad de la ronda
     public Integer contLVL = 1; //Numero de la ronda
     public Integer premio = 0; //Monto
+    public String nombreJugador;
 
     public iniciar_juego() {
         initComponents();
         this.setLocationRelativeTo(null); //Centrar al medio
 
+        nombreJugador = JOptionPane.showInputDialog("Ingrese el nombre del Jugador: ");
         try {
+
             cargarDatos();
         } catch (BaseDeDatosException ex) {
             throw new InnovaModelException(String.format("Error en base de datos [%s]", ex.getMessage()));
@@ -283,7 +287,7 @@ public class iniciar_juego extends javax.swing.JFrame {
                     lvlRonda = "facil";
                     break;
                 case 2:
-                    lvlRonda = "facil";
+                    lvlRonda = "medio";
                     premio = 200000;
                     break;
                 case 3:
@@ -291,20 +295,32 @@ public class iniciar_juego extends javax.swing.JFrame {
                     premio = 500000;
                     break;
                 case 4:
-                    lvlRonda = "medio";
+                    lvlRonda = "dificil";
                     premio = 750000;
                     break;
                 case 5:
-                    lvlRonda = "dificil";
+                    //lvlRonda = "dificil";
                     premio = 10000000;
                     break;
             }
 
-            cargarDatos(); //Cargar todos los datos de nuevo
+            if (contLVL == 5) { //Si ya llego a la ronda final, guarda
+                Jugador winPlayer = new Jugador(nombreJugador,premio,contLVL);
+                fabrica.getJugadorControlador().altaJugador(winPlayer);
+                JOptionPane.showMessageDialog(null, "FELICIDADES HAS GANADO!!!");
+                
+                //Configurar para salir al menu de inicio
+                menu m = new menu();
+                m.show();
+                dispose();
+            }
 
+            cargarDatos(); //Cargar todos los datos de nuevo
         } else {
             JOptionPane.showMessageDialog(null, "Respuesta Incorrecta!!!");
-
+            Jugador losePlayer = new Jugador(nombreJugador,premio,contLVL);
+            fabrica.getJugadorControlador().altaJugador(losePlayer);
+            
             //Configurar para salir al menu de inicio
             menu m = new menu();
             m.show();

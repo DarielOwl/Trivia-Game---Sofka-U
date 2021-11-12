@@ -11,5 +11,7 @@ public interface JugadorInterfaz {
 
     //ranking de los jugadores (ordenados de mayor a menor)
     List<Jugador> getTodosLosJugadores();
-
+    
+    //Ingresar usuario
+    void altaJugador(Jugador player);
 }
